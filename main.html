@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="page_title"></title>
+    <link rel="stylesheet" href="main.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    
+    <div class="top-controls">
+        <button id="theme-toggle" class="btn btn-secondary top-control-btn" title="">
+            <span id="theme-icon"></span>
+        </button>
+        <button id="language-toggle" class="btn btn-secondary top-control-btn">
+            <span id="lang-code"></span>
+        </button>
+    </div>
+
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h2 data-i18n="sidebar_header"></h2>
+        </div>
+        <ul>
+            <li><a href="#" class="nav-link active" data-target="qr-generator" data-i18n="nav_qr"></a></li>
+            <li><a href="#" class="nav-link" data-target="markdown-converter" data-i18n="nav_md"></a></li>
+            <li><a href="#" class="nav-link" data-target="unit-converter" data-i18n="nav_unit"></a></li>
+            <li><a href="#" class="nav-link" data-target="json-tools" data-i18n="nav_json"></a></li>
+        </ul>
+    </nav>
+    
+    <main id="content">
+        <section class="utility-card active" id="qr-generator">
+            <h2 class="card-title" data-i18n="qr_title"></h2>
+            <div class="form-group">
+                <label for="qr-input" data-i18n="qr_input_label"></label>
+                <input type="text" id="qr-input" data-i18n-placeholder="qr_input_placeholder" placeholder="" required>
+            </div>
+            
+            <div class="qr-output-container">
+                <div id="qrcode"></div>
+                <p id="qr-message"></p>
+            </div>
+            
+            <div class="qr-settings-wrapper">
+                <div class="form-group color-select-group">
+                    <label for="qr-color-select" data-i18n="qr_color_label"></label>
+                    <input type="color" id="qr-color-select" value="#000000"> 
+                </div>
+            </div>
+            
+            <div class="qr-download-wrapper">
+                <div class="form-group qr-download-size-group">
+                    <label for="qr-size-select" style="margin-right: 10px;" data-i18n="qr_size_label"></label>
+                    <select id="qr-size-select">
+                        <option value="128" data-i18n="qr_size_small"></option>
+                        <option value="256" selected data-i18n="qr_size_medium"></option>
+                        <option value="512" data-i18n="qr_size_large"></option>
+                    </select>
+                </div>
+                <button class="btn btn-secondary" id="download-qr-btn" style="display:none;" data-i18n="qr_download_btn"></button>
+            </div>
+        </section>
+        
+        <section class="utility-card" id="markdown-converter" style="display:none;">
+            <h2 class="card-title" data-i18n="md_title"></h2>
+            <div class="converter-area">
+                <div class="markdown-input-wrapper full-height-textarea form-group"> 
+                    <label for="markdown-input" data-i18n="md_input_label"></label>
+                    <textarea id="markdown-input" data-i18n-placeholder="md_input_placeholder" placeholder=""></textarea>
+                </div>
+                <div class="html-output-wrapper full-height-textarea form-group"> 
+                    <label for="html-output" data-i18n="md_output_label"></label>
+                    <textarea id="html-output" data-i18n-placeholder="md_output_placeholder" placeholder="" readonly></textarea>
+                </div>
+            </div>
+            <button class="btn btn-primary markdown-copy-btn" id="copy-html-btn" data-i18n="md_copy_btn"></button> 
+        </section>
+        
+        <section class="utility-card active" id="unit-converter" style="display:none;">
+            <h2 class="card-title" data-i18n="unit_title"></h2>
+            <div class="form-group">
+                <label for="unit-value" data-i18n="unit_value_label"></label>
+                <input type="number" id="unit-value" value="1" min="0">
+            </div>
+            
+            <div class="form-group">
+                <label for="unit-from" data-i18n="unit_from_label"></label>
+                <select id="unit-from">
+                    <optgroup label="" data-unit-type="length" data-i18n-label="unit_group_length">
+                        <option value="m" data-i18n="unit_m"></option>
+                        <option value="km" data-i18n="unit_km"></option>
+                        <option value="mi" data-i18n="unit_mi"></option>
+                        <option value="ft" data-i18n="unit_ft"></option>
+                    </optgroup>
+                    <optgroup label="" data-unit-type="area" data-i18n-label="unit_group_area">
+                        <option value="sqm" data-i18n="unit_sqm"></option>
+                        <option value="sqkm" data-i18n="unit_sqkm"></option>
+                        <option value="acre" data-i18n="unit_acre"></option>
+                        <option value="ha" data-i18n="unit_ha"></option>
+                    </optgroup>
+                    <optgroup label="" data-unit-type="mass" data-i18n-label="unit_group_mass">
+                        <option value="kg" data-i18n="unit_kg"></option>
+                        <option value="g" data-i18n="unit_g"></option>
+                        <option value="lb" data-i18n="unit_lb"></option>
+                        <option value="oz" data-i18n="unit_oz"></option>
+                    </optgroup>
+                    <optgroup label="" data-unit-type="volume" data-i18n-label="unit_group_volume">
+                        <option value="l" data-i18n="unit_l"></option>
+                        <option value="ml" data-i18n="unit_ml"></option>
+                        <option value="gal" data-i18n="unit_gal"></option>
+                        <option value="m3" data-i18n="unit_m3"></option>
+                    </optgroup>
+                    <optgroup label="" data-unit-type="temperature" data-i18n-label="unit_group_temp">
+                        <option value="C" data-i18n="unit_C"></option>
+                        <option value="F" data-i18n="unit_F"></option>
+                        <option value="K" data-i18n="unit_K"></option>
+                    </optgroup>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="unit-to" data-i18n="unit_to_label"></label>
+                <select id="unit-to">
+                    <optgroup label="" data-unit-type="length" data-i18n-label="unit_group_length">
+                        <option value="km" data-i18n="unit_km"></option>
+                        <option value="mi" data-i18n="unit_mi"></option>
+                        <option value="ft" data-i18n="unit_ft"></option>
+                    </optgroup>
+                </select>
+            </div>
+            
+            <div class="unit-result-wrapper"> 
+                <p id="unit-result" class="result-text" data-i18n="unit_default_result"></p>
+            </div>
+        </section>
+        
+        <section class="utility-card" id="json-tools" style="display:none;">
+            <h2 class="card-title" data-i18n="json_title"></h2>
+            <div class="form-group full-height-textarea">
+                <label for="json-input" data-i18n="json_input_label"></label>
+                <textarea id="json-input" data-i18n-placeholder="json_input_placeholder" placeholder=""></textarea>
+            </div>
+            <div class="json-buttons form-group"> 
+                <button class="btn btn-primary" id="format-json-btn" data-i18n="json_format_btn"></button>
+                <button class="btn btn-secondary" id="validate-json-btn" data-i18n="json_validate_btn"></button>
+            </div>
+            <div class="form-group full-height-textarea">
+                <label data-i18n="json_output_label"></label>
+                <pre id="json-output-pre"></pre>
+            </div>
+            <p id="json-status" class="status-message"></p>
+        </section>
+    </main>
+    
+    <script src="main.js"></script>
+</body>
+</html>

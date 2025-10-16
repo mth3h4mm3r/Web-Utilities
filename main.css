@@ -1,0 +1,449 @@
+body {
+    font-family: -apple-system, BlinkMacMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    background-color: var(--bg-color); 
+    color: var(--text-color); 
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+    display: flex;
+    min-height: 100vh;
+    overflow: hidden;
+    /* Плавний перехід теми */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* --- СТИЛІ СВІТЛОЇ ТЕМИ --- */
+[data-theme="light"] {
+    --bg-color: #f6f8fa; /* Основний фон (body) */
+    --card-bg: #ffffff; /* Фон карток та основних елементів */
+    --text-color: #24292e; /* Основний текст */
+    --border-color: #e1e4e8; /* Межі */
+    --sidebar-bg: #ffffff; /* Фон сайдбару */
+    --sidebar-text: #586069;
+    --sidebar-active-bg: #e1e4e8;
+    --sidebar-active-border: #0366d6; /* Синій для активного елемента */
+    --input-bg: #f6f8fa; /* Фон полів вводу */
+    --input-border: #d1d5da;
+    --result-bg: #f0f8ff; /* Фон результатів */
+    --result-border: #c8e1ff;
+    --result-color: #0366d6;
+    --primary-btn-bg: #2ea44f;
+    --secondary-btn-bg: #f6f8fa;
+    --secondary-btn-color: #24292e;
+    --qr-border: #e1e4e8;
+}
+
+/* --- СТИЛІ ТЕМНОЇ ТЕМИ --- */
+[data-theme="dark"] {
+    --bg-color: #22272e; /* Основний темний фон (body) */
+    --card-bg: #2d333b; /* Темні картки та основні елементи */
+    --text-color: #adbac7; /* Світлий текст */
+    --border-color: #444c56;
+    --sidebar-bg: #22272e; /* Фон сайдбару */
+    --sidebar-text: #adbac7;
+    --sidebar-active-bg: #444c56;
+    --sidebar-active-border: #539bf5; /* Світло-синій для активного */
+    --input-bg: #2d333b;
+    --input-border: #444c56;
+    --result-bg: #2d333b;
+    --result-border: #444c56;
+    --result-color: #79c0ff; /* Більш світлий результат */
+    --primary-btn-bg: #539bf5;
+    --secondary-btn-bg: #444c56;
+    --secondary-btn-color: #adbac7;
+    --qr-border: #444c56;
+}
+/* Окреме налаштування для кнопок у темній темі */
+[data-theme="dark"] .btn-primary { 
+    background-color: var(--primary-btn-bg);
+    border-color: var(--primary-btn-bg);
+    color: #000; 
+    box-shadow: none;
+}
+[data-theme="dark"] .btn-primary:hover { 
+    background-color: #6cb6ff; 
+    border-color: #6cb6ff; 
+}
+[data-theme="dark"] .btn-secondary {
+    color: var(--secondary-btn-color);
+    background-color: var(--secondary-btn-bg);
+    border-color: var(--input-border);
+    box-shadow: none;
+}
+[data-theme="dark"] .btn-secondary:hover {
+    background-color: #545d68;
+}
+[data-theme="dark"] .btn-secondary.top-control-btn {
+    font-weight: 700;
+}
+
+/* --- СТИЛІ КОНТРОЛІВ У ВЕРХНЬОМУ КУТІ --- */
+.top-controls {
+    position: fixed;
+    top: 20px; 
+    right: 30px; 
+    z-index: 1000;
+    display: flex;
+    gap: 10px;
+}
+/* ВИПРАВЛЕНО: Ідеальне центрування іконок та круглі кнопки */
+.top-control-btn {
+    width: 40px; 
+    height: 40px;
+    padding: 0; 
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    font-size: 1.2em;
+    border-radius: 50%; /* Кругла форма */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); 
+    /* Додамо плавний перехід для самої кнопки */
+    transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+.top-control-btn:focus {
+    outline: none; /* Прибираємо стандартний контур фокусу */
+    box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.3); /* Додаємо власну тінь для фокусу */
+}
+#theme-icon, #lang-code {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#theme-icon {
+    font-size: 1.5em; 
+}
+#lang-code {
+    font-size: 1.1em;
+}
+
+
+/* --- ЗАГАЛЬНІ СТИЛІ З ВИКОРИСТАННЯМ ЗМІННИХ --- */
+#sidebar {
+    width: 280px; 
+    background-color: var(--sidebar-bg); /* ВИКОРИСТАННЯ ЗМІННОЇ ТЕМИ */
+    border-right: 1px solid var(--border-color); /* ВИКОРИСТАННЯ ЗМІННОЇ ТЕМИ */
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+.sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color); /* ВИКОРИСТАННЯ ЗМІННОЇ ТЕМИ */
+    text-align: center;
+}
+#sidebar h2 {
+    font-size: 1.4em;
+    color: var(--text-color); /* ВИКОРИСТАННЯ ЗМІННОЇ ТЕМИ */
+    margin: 0;
+}
+#sidebar ul {
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+#sidebar li a {
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: var(--sidebar-text); /* ВИКОРИСТАННЯ ЗМІННОЇ ТЕМИ */
+    border-left: 3px solid transparent;
+    transition: all 0.2s ease-in-out;
+}
+#sidebar li a:hover {
+    color: var(--sidebar-active-border); /* ВИКОРИСТАННЯ ЗМІННОЇ ТЕМИ */
+    background-color: var(--sidebar-active-bg); /* ВИКОРИСТАННЯ ЗМІННОЇ ТЕМИ */
+}
+#sidebar li a.active {
+    color: var(--text-color); /* ВИКОРИСТАННЯ ЗМІННОЇ ТЕМИ */
+    background-color: var(--sidebar-active-bg); /* ВИКОРИСТАННЯ ЗМІННОЇ ТЕМИ */
+    border-left-color: var(--sidebar-active-border); /* ВИКОРИСТАННЯ ЗМІННОЇ ТЕМИ */
+    font-weight: 600;
+}
+#content {
+    flex-grow: 1;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    /* Фон контенту буде фон body, тому перехід вже є */
+}
+.utility-card {
+    background-color: var(--card-bg); /* ВИКОРИСТАННЯ ЗМІННОЇ ТЕМИ */
+    padding: 30px;
+    border-radius: 6px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--border-color); /* ВИКОРИСТАННЯ ЗМІННОЇ ТЕМИ */
+    display: flex;
+    flex-direction: column;
+    max-width: 960px; 
+    width: 100%;
+    margin: 0 auto; 
+    flex-grow: 1; 
+    height: 0; 
+    position: relative; 
+    padding-bottom: 80px; 
+    transition: background-color 0.3s, border-color 0.3s;
+}
+#markdown-converter, #json-tools {
+    padding-bottom: 30px; 
+}
+.card-title {
+    color: var(--text-color); /* ВИКОРИСТАННЯ ЗМІННОЇ ТЕМИ */
+    margin-top: 0;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color); /* ВИКОРИСТАННЯ ЗМІННОЇ ТЕМИ */
+    font-size: 1.8em;
+    font-weight: 600;
+    margin-bottom: 20px; 
+    flex-shrink: 0;
+}
+.form-group {
+    margin-bottom: 20px; 
+    flex-shrink: 0;
+}
+.form-group label {
+    display: block;
+    font-weight: 600; 
+    margin-bottom: 8px; 
+    color: var(--text-color); /* ВИКОРИСТАННЯ ЗМІННОЇ ТЕМИ */
+}
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--input-border); /* ВИКОРИСТАННЯ ЗМІННОЇ ТЕМИ */
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 16px;
+    background-color: var(--input-bg); /* ВИКОРИСТАННЯ ЗМІННОЇ ТЕМИ */
+    color: var(--text-color); /* ВИКОРИСТАННЯ ЗМІННОЇ ТЕМИ */
+    transition: all 0.2s ease-in-out;
+}
+/* ... решта стилів для кнопок, QR-коду та конвертера залишаються коректними ... */
+textarea {
+    resize: none;
+    min-height: 120px; 
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+}
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid;
+    border-radius: 6px;
+    appearance: none;
+    transition: all 0.2s ease-in-out;
+    flex-shrink: 0;
+}
+.btn-primary {
+    color: #fff;
+    background-color: var(--primary-btn-bg);
+    border-color: var(--primary-btn-bg);
+    box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset;
+}
+.btn-primary:hover {
+    background-color: #2c974b;
+    border-color: #2ea44f;
+}
+.btn-secondary {
+    color: var(--secondary-btn-color);
+    background-color: var(--secondary-btn-bg);
+    border-color: var(--input-border);
+    box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px 0px;
+}
+.btn-secondary:hover {
+    background-color: var(--sidebar-active-bg);
+    border-color: rgba(27, 31, 35, 0.15);
+}
+/* Спеціальний стиль для кнопок QR-коду */
+#qr-generator .btn-primary { 
+    background-color: #0366d6; 
+    border-color: #0366d6; 
+    color: #fff;
+}
+#qr-generator .btn-primary:hover { background-color: #005cc5; border-color: #005cc5; }
+[data-theme="dark"] #qr-generator .btn-primary {
+    background-color: #539bf5; 
+    border-color: #539bf5;
+}
+[data-theme="dark"] #qr-generator .btn-primary:hover {
+    background-color: #6cb6ff; 
+    border-color: #6cb6ff;
+}
+
+#qr-generator .qr-output-container {
+    text-align: center;
+    margin-top: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+    padding-bottom: 10px;
+}
+#qrcode {
+    display: inline-block;
+    padding: 10px;
+    border: 1px solid var(--qr-border);
+    border-radius: 6px;
+    background-color: var(--card-bg);
+    margin-bottom: 15px;
+    flex-shrink: 0;
+    width: 80%; 
+    max-width: 350px; 
+    aspect-ratio: 1 / 1; 
+    position: relative;
+}
+#qrcode img, #qrcode canvas {
+    width: 90%;
+    height: 90%;
+    position: absolute; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    border: none;
+}
+#qr-message {
+    color: #cb2431; 
+    font-weight: 600;
+    margin-top: 10px;
+    flex-shrink: 0;
+}
+.qr-settings-wrapper {
+    position: absolute;
+    bottom: 30px; 
+    left: 30px; 
+    display: flex; 
+    align-items: center;
+}
+.color-select-group {
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.color-select-group label {
+    margin-bottom: 0; 
+}
+#qr-color-select {
+    width: 50px; 
+    height: 36px; 
+    padding: 0;
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: var(--card-bg);
+}
+.qr-download-wrapper {
+    position: absolute;
+    bottom: 30px; 
+    right: 30px; 
+    display: flex; 
+    align-items: center;
+    gap: 15px; 
+}
+.qr-download-size-group {
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+}
+.qr-download-size-group label {
+    margin-bottom: 0; 
+}
+.qr-download-size-group select {
+    width: auto; 
+}
+#download-qr-btn { 
+    margin: 0; 
+}
+.converter-area {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 0; 
+    flex-grow: 1; 
+}
+.markdown-input-wrapper, .html-output-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-bottom: 0; 
+}
+.converter-area textarea {
+    flex-grow: 1; 
+    min-height: 0; 
+}
+.markdown-copy-btn {
+    align-self: flex-start; 
+    margin-top: 20px; 
+}
+#unit-converter .unit-result-wrapper {
+    flex-grow: 1; 
+    display: flex;
+    flex-direction: column;
+}
+.result-text {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: var(--result-color);
+    text-align: center;
+    padding: 15px;
+    border: 1px dashed var(--result-border);
+    border-radius: 6px;
+    background-color: var(--result-bg);
+    margin-top: 0; 
+    flex-grow: 1; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px; 
+}
+.json-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px; 
+}
+.full-height-textarea {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin-bottom: 20px; 
+}
+.full-height-textarea textarea,
+.full-height-textarea pre {
+    flex-grow: 1;
+    min-height: 0; 
+    overflow-y: auto;
+}
+#json-output-pre {
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    padding: 10px 12px;
+    border-radius: 6px;
+    white-space: pre-wrap;
+    word-break: break-all;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    font-size: 0.9em;
+    color: var(--text-color);
+}
+#json-tools .status-message {
+    margin-top: -10px; 
+    margin-bottom: 0; 
+    padding-top: 10px;
+}
+#markdown-converter .full-height-textarea {
+    margin-bottom: 0;
+}
