@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Utilities</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h2>Інструменти</h2>
+        </div>
+        <ul>
+            <li><a href="#qr-generator" class="nav-link active" data-target="qr-generator">Генератор QR-кодів</a></li>
+            <li><a href="#markdown-converter" class="nav-link" data-target="markdown-converter">Markdown до HTML</a></li>
+            <li><a href="#unit-converter" class="nav-link" data-target="unit-converter">Конвертер Одиниць</a></li>
+            <li><a href="#json-tools" class="nav-link" data-target="json-tools">Валідатор JSON</a></li>
+        </ul>
+    </nav>
+    <main id="content">
+        <section class="utility-card active" id="qr-generator">
+            <h2 class="card-title">Генератор QR-кодів</h2>
+            <div class="form-group">
+                <label for="qr-input">Текст або URL:</label>
+                <input type="text" id="qr-input" placeholder="Введіть текст або URL..." required>
+            </div>
+            
+            <div class="qr-output-container">
+                <div id="qrcode"></div>
+                <p id="qr-message"></p>
+            </div>
+            
+            <div class="qr-settings-wrapper">
+                <div class="form-group color-select-group">
+                    <label for="qr-color-select">Колір коду:</label>
+                    <input type="color" id="qr-color-select" value="#000000"> 
+                </div>
+            </div>
+            
+            <div class="qr-download-wrapper">
+                <div class="form-group qr-download-size-group">
+                    <label for="qr-size-select" style="margin-right: 10px;">Розмір завантаження:</label>
+                    <select id="qr-size-select">
+                        <option value="128">Малий (128x128)</option>
+                        <option value="256" selected>Середній (256x256)</option>
+                        <option value="512">Великий (512x512)</option>
+                    </select>
+                </div>
+                <button class="btn btn-secondary" id="download-qr-btn" style="display:none;">Завантажити</button>
+            </div>
+        </section>
+        
+        <section class="utility-card" id="markdown-converter" style="display:none;">
+            <h2 class="card-title">Markdown до HTML</h2>
+            <div class="converter-area">
+                <div class="markdown-input-wrapper full-height-textarea form-group"> 
+                    <label for="markdown-input">Вхідний Markdown:</label>
+                    <textarea id="markdown-input" placeholder="Введіть текст у форматі Markdown..."></textarea>
+                </div>
+                <div class="html-output-wrapper full-height-textarea form-group"> 
+                    <label for="html-output">Вихідний HTML:</label>
+                    <textarea id="html-output" placeholder="HTML результат..." readonly></textarea>
+                </div>
+            </div>
+            <button class="btn btn-primary markdown-copy-btn" id="copy-html-btn">Копіювати HTML</button> 
+        </section>
+        
+        <section class="utility-card" id="unit-converter" style="display:none;">
+            <h2 class="card-title">Конвертер Одиниць Вимірювання</h2>
+            <div class="form-group">
+                <label for="unit-value">Значення:</label>
+                <input type="number" id="unit-value" value="1" min="0">
+            </div>
+            <div class="form-group">
+                <label for="unit-from">З:</label>
+                <select id="unit-from">
+                    <optgroup label="Довжина">
+                        <option value="m">Метри (m)</option>
+                        <option value="km">Кілометри (km)</option>
+                        <option value="mi">Мілі (mi)</option>
+                    </optgroup>
+                    <optgroup label="Температура">
+                        <option value="C">Цельсій (°C)</option>
+                        <option value="F">Фаренгейт (°F)</option>
+                        <option value="K">Кельвін (K)</option>
+                    </optgroup>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="unit-to">В:</label>
+                <select id="unit-to">
+                    <optgroup label="Довжина">
+                        <option value="m">Метри (m)</option>
+                        <option value="km">Кілометри (km)</option>
+                        <option value="mi">Мілі (mi)</option>
+                    </optgroup>
+                    <optgroup label="Температура">
+                        <option value="C">Цельсій (°C)</option>
+                        <option value="F">Фаренгейт (°F)</option>
+                        <option value="K">Кельвін (K)</option>
+                    </optgroup>
+                </select>
+            </div>
+            <div class="unit-result-wrapper"> 
+                <p id="unit-result" class="result-text">Результат: 1 m = 1 m</p>
+            </div>
+        </section>
+        
+        <section class="utility-card" id="json-tools" style="display:none;">
+            <h2 class="card-title">Валідатор / Форматер JSON</h2>
+            <div class="form-group full-height-textarea">
+                <label for="json-input">Вставте код JSON тут:</label>
+                <textarea id="json-input" placeholder="Вставте код JSON тут..."></textarea>
+            </div>
+            <div class="json-buttons form-group"> 
+                <button class="btn btn-primary" id="format-json-btn">Форматувати JSON</button>
+                <button class="btn btn-secondary" id="validate-json-btn">Валідувати JSON</button>
+            </div>
+            <div class="form-group full-height-textarea">
+                <label>Результат:</label>
+                <pre id="json-output-pre"></pre>
+            </div>
+            <p id="json-status" class="status-message"></p>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
